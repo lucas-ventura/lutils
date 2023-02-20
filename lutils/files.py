@@ -79,6 +79,8 @@ def openf(file_path):
     Open file and return contents
     """
     file_path = Path(file_path)
+    assert file_path.exists(), f"File does not exist: {file_path}"
+
     ext = file_path.suffix
 
     if ext == ".txt":
