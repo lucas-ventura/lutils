@@ -53,6 +53,6 @@ obj = openf("example.pkl")
 writef("example.pkl", {"foo": 1, "bar": 2, "baz": 3})
 
 # Crop the center of an image
-image = Image.open("example.jpg")
+image = openf("example.jpg")
 cropped_image = center_crop(image)
 ```
