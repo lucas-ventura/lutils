@@ -3,6 +3,7 @@ import json
 import pickle
 import pandas as pd
 from typing import List, Union
+from PIL import Image
 
 
 def pickle_load(pkl_pth: Union[Path, str]):
@@ -66,6 +67,13 @@ def load_pkl_dir(pkl_dir: Union[Path, str]):
     return data
 
 
+def read_image(image_path: Union[str, Path]) -> Image.Image:
+    with open(image_path, "rb") as f:
+        img = Image.open(f)
+        img.load()
+    return img
+
+
 def openf(file_path):
     """
     Open file and return contents
@@ -81,6 +89,8 @@ def openf(file_path):
         return pickle_load(file_path)
     elif ext == ".pth":
         return torch_load(file_path)
+    elif ext in {".jpg", ".jpeg", ".png", ".bmp", ".gif"}:
+        return read_image(file_path)
     else:
         raise ValueError(f"Unsupported file extension: {ext}")
 

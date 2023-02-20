@@ -4,11 +4,7 @@ setup(
     name="lutils",
     version="0.1",
     packages=find_packages(),
-    install_requires=[
-        "opencv-python",
-        "Pillow",
-        "pandas",
-    ],
+    install_requires=["opencv-python", "Pillow", "pandas", "Pillow"],
     author="Lucas Ventura",
     author_email="lucas.ventura.r@gmail.com",
     description="A package for file and frame processing",

@@ -32,25 +32,25 @@ pip install git+https://github.com/lucas-ventura/lutils.git
 ## Example
 
 ```python
-from lutils import *
+from lutils import openf, writef, center_crop
 
 # Read a text file
-lines = read_txt("example.txt")
+lines = openf("example.txt")
 
 # Write a list of strings to a text file
-write_txt("example.txt", ["foo", "bar", "baz"])
+writef("example.txt", ["foo", "bar", "baz"])
 
 # Load a JSON file
-data = json_load("example.json")
+data = openf("example.json")
 
 # Write a dictionary to a JSON file
-json_dump("example.json", {"foo": 1, "bar": 2, "baz": 3})
+writef("example.json", {"foo": 1, "bar": 2, "baz": 3})
 
 # Load a pickled object from a file
-obj = pickle_load("example.pkl")
+obj = openf("example.pkl")
 
 # Pickle an object and write it to a file
-pickle_dump("example.pkl", {"foo": 1, "bar": 2, "baz": 3})
+writef("example.pkl", {"foo": 1, "bar": 2, "baz": 3})
 
 # Crop the center of an image
 image = Image.open("example.jpg")
