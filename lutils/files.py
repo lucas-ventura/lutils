@@ -30,6 +30,11 @@ def write_txt(txt_pth: Union[Path, str], data):
             f.write("%s\n" % item)
 
 
+def write_line(txt_pth: Union[Path, str], line):
+    with open(txt_pth, "a") as f:
+        f.write(line)
+
+
 def json_load(json_pth: Union[Path, str]):
     if not isinstance(json_pth, str):
         json_pth = str(json_pth)
