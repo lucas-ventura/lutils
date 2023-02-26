@@ -113,9 +113,17 @@ def writef(
         data: the data to write to the file. Can be a list, dict, or pandas DataFrame.
         **kwargs: optional keyword arguments to pass to the file writing functions.
     """
-    file_path = Path(file_path)
-    ext = file_path.suffix
+    # If file_path is not a string or Path, interchange with data
+    if not isinstance(file_path, (str, Path)):
+        file_path, data = data, file_path
 
+    if not isinstance(file_path, Path):
+        file_path = Path(file_path)
+    assert (
+        file_path.parent.exists()
+    ), f"Parent directory does not exist: {file_path.parent}"
+
+    ext = file_path.suffix
     if ext == ".txt":
         write_txt(file_path, data)
     elif ext == ".json":
