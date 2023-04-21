@@ -48,7 +48,7 @@ def json_dump(json_pth: Union[Path, str], data):
     if not isinstance(json_pth, str):
         json_pth = str(json_pth)
     with open(json_pth, "w") as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=2)
 
 
 def torch_load(pth: Union[Path, str]):
