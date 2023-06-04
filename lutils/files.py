@@ -3,6 +3,7 @@ import pickle
 from pathlib import Path
 from typing import List, Union
 
+import ruamel.yaml as yaml
 import pandas as pd
 from PIL import Image
 
@@ -80,6 +81,16 @@ def read_image(image_path: Union[str, Path]) -> Image.Image:
     return img
 
 
+def yaml_load(file_path: Union[str, Path]):
+    with open(file_path, "r") as f:
+        return yaml.load(f, Loader=yaml.Loader)
+
+
+def yaml_dump(file_path: Union[str, Path], data):
+    with open(file_path, "w") as f:
+        yaml.dump(data, f)
+
+
 def openf(file_path):
     """
     Open file and return contents
@@ -99,13 +110,13 @@ def openf(file_path):
         return torch_load(file_path)
     elif ext in {".jpg", ".jpeg", ".png", ".bmp", ".gif"}:
         return read_image(file_path)
+    elif ext in {".yaml"}:
+        return yaml_load(file_path)
     else:
         raise ValueError(f"Unsupported file extension: {ext}")
 
 
-def writef(
-    file_path, data, **kwargs
-):
+def writef(file_path, data, **kwargs):
     """
     Writes data to a file at the given file path. The file format is determined by the file extension.
 
@@ -131,5 +142,7 @@ def writef(
         json_dump(file_path, data, **kwargs)
     elif ext in {".pkl", ".pickle", ".pckl", ".pk"}:
         pickle_dump(file_path, data)
+    elif ext == ".yaml":
+        yaml_dump(file_path, data)
     else:
         raise ValueError(f"Unsupported file extension: {ext}")
