@@ -104,7 +104,7 @@ def openf(file_path):
 
 
 def writef(
-    file_path: Union[Path, str], data: Union[List, dict, pd.DataFrame], **kwargs
+    file_path, data, **kwargs
 ):
     """
     Writes data to a file at the given file path. The file format is determined by the file extension.
