@@ -3,11 +3,12 @@ import pickle
 from pathlib import Path
 from typing import Union
 
-from ruamel.yaml import YAML
 import pandas as pd
 from PIL import Image
+from ruamel.yaml import YAML
 
-yaml = YAML(typ='rt')
+yaml = YAML(typ="rt")
+
 
 def pickle_load(pkl_pth: Union[Path, str]):
     with open(pkl_pth, "rb") as file:
@@ -29,6 +30,9 @@ def read_txt(txt_pth: Union[Path, str]) -> list:
 
 def write_txt(txt_pth: Union[Path, str], data):
     with open(txt_pth, "w") as f:
+        if isinstance(data, str):
+            f.write(data)
+            return
         for item in data:
             f.write("%s\n" % item)
 
