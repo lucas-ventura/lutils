@@ -25,7 +25,7 @@ def pickle_dump(pkl_pth: Union[Path, str], data):
 def read_txt(txt_pth: Union[Path, str]) -> list:
     with open(txt_pth) as f:
         lines = f.read().split("\n")
-    return lines[:-1]
+    return lines[:-1] if lines[-1] == "" else lines
 
 
 def write_txt(txt_pth: Union[Path, str], data):
