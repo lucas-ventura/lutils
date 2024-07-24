@@ -50,11 +50,27 @@ def json_load(json_pth: Union[Path, str]):
     return data
 
 
+def jsonl_load(jsonl_pth: Union[Path, str]):
+    data = []
+    with open(jsonl_pth, "r") as f:
+        for line in f:
+            data.append(json.loads(line))
+    return data
+
+
 def json_dump(json_pth: Union[Path, str], data):
     if not isinstance(json_pth, str):
         json_pth = str(json_pth)
     with open(json_pth, "w") as f:
         json.dump(data, f, indent=2)
+
+
+def jsonl_dump(jsonl_pth, data):
+    assert isinstance(data, list), "Data must be a list for jsonl"
+    with open(jsonl_pth, "w") as f:
+        for entry in data:
+            json_line = json.dumps(entry)
+            f.write(json_line + "\n")
 
 
 def torch_load(pth: Union[Path, str]):
@@ -109,6 +125,8 @@ def openf(file_path):
         return read_txt(file_path)
     elif ext == ".json":
         return json_load(file_path)
+    elif ext == ".jsonl":
+        return jsonl_load(file_path)
     elif ext in {".pkl", ".pickle", ".pckl", ".pk"}:
         return pickle_load(file_path)
     elif ext == ".pth":
@@ -145,6 +163,8 @@ def writef(file_path, data, **kwargs):
         write_txt(file_path, data)
     elif ext == ".json":
         json_dump(file_path, data, **kwargs)
+    elif ext == ".jsonl":
+        jsonl_dump(file_path, data)
     elif ext in {".pkl", ".pickle", ".pckl", ".pk"}:
         pickle_dump(file_path, data)
     elif ext == ".yaml":
