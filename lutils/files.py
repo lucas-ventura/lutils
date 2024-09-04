@@ -10,6 +10,23 @@ from ruamel.yaml import YAML
 yaml = YAML(typ="rt")
 
 
+def check_path_exists(file_path: Path):
+    if file_path.exists():
+        return
+
+    current_path = Path("/")
+    for part in file_path.parts:
+        current_path = current_path / part
+        if not current_path.exists():
+            break
+
+    existing_path = current_path.parent
+    non_existing_path = file_path.relative_to(existing_path)
+    raise AssertionError(
+        f"Path exists up to: {existing_path}, missing: {non_existing_path}"
+    )
+
+
 def pickle_load(pkl_pth: Union[Path, str]):
     with open(pkl_pth, "rb") as file:
         pickle_data = pickle.load(file)
@@ -117,7 +134,7 @@ def openf(file_path):
     Open file and return contents
     """
     file_path = Path(file_path)
-    assert file_path.exists(), f"File does not exist: {file_path}"
+    check_path_exists(file_path)
 
     ext = file_path.suffix
 
