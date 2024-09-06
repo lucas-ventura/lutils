@@ -54,6 +54,25 @@ def write_txt(txt_pth: Union[Path, str], data):
             f.write("%s\n" % item)
 
 
+def write_sh(sh_pth: Union[Path, str], data):
+    header = "#!/bin/bash\n"
+    with open(sh_pth, "w") as f:
+        # If the data is a string, we need to check if it starts with the header
+        if isinstance(data, str):
+            if not data.startswith(header):
+                f.write(header)
+            f.write(data)
+            return
+
+        # If the data is a list, ensure the first item is the header
+        if not data or data[0] != header.strip():
+            f.write(header)
+
+        # Write the rest of the data
+        for item in data:
+            f.write(f"{item}\n")
+
+
 def write_line(txt_pth: Union[Path, str], line):
     with open(txt_pth, "a") as f:
         f.write(line)
@@ -138,7 +157,7 @@ def openf(file_path):
 
     ext = file_path.suffix
 
-    if ext == ".txt":
+    if ext in {".txt", ".sh"}:
         return read_txt(file_path)
     elif ext == ".json":
         return json_load(file_path)
@@ -186,5 +205,7 @@ def writef(file_path, data, **kwargs):
         pickle_dump(file_path, data)
     elif ext == ".yaml":
         yaml_dump(file_path, data)
+    elif ext == ".sh":
+        write_sh(file_path, data)
     else:
         raise ValueError(f"Unsupported file extension: {ext}")
