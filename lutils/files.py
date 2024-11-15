@@ -175,14 +175,14 @@ def openf(file_path):
         raise ValueError(f"Unsupported file extension: {ext}")
 
 
-def writef(file_path, data, **kwargs):
+def writef(file_path, data, overwrite=True):
     """
     Writes data to a file at the given file path. The file format is determined by the file extension.
 
     Args:
         file_path: str or Path, the path to the file to write.
         data: the data to write to the file. Can be a list, dict, or pandas DataFrame.
-        **kwargs: optional keyword arguments to pass to the file writing functions.
+        overwrite: bool, whether to overwrite the file if it exists. Defaults to True.
     """
     # If file_path is not a string or Path, interchange with data
     if not isinstance(file_path, (str, Path)):
@@ -194,11 +194,15 @@ def writef(file_path, data, **kwargs):
         file_path.parent.exists()
     ), f"Parent directory does not exist: {file_path.parent}"
 
+    if file_path.exists() and not overwrite:
+        print(f"Warning: File {file_path} exists and overwrite=False. Skipping write.")
+        return
+
     ext = file_path.suffix
     if ext == ".txt":
         write_txt(file_path, data)
     elif ext == ".json":
-        json_dump(file_path, data, **kwargs)
+        json_dump(file_path, data)
     elif ext == ".jsonl":
         jsonl_dump(file_path, data)
     elif ext in {".pkl", ".pickle", ".pckl", ".pk"}:
