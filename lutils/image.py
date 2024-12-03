@@ -1,13 +1,14 @@
 from pathlib import Path
+from typing import Union
 
 import cv2
 from PIL import Image
 
 
 def get_frame(
-    video_pth: str | Path,
-    frame_idx: int | None = None,
-    timestamp_sec: float | None = None,
+    video_pth: Union[str, Path],
+    frame_idx: Union[int, None] = None,
+    timestamp_sec: Union[float, None] = None,
 ):
     if not isinstance(video_pth, str):
         video_pth = str(video_pth)
