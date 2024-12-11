@@ -157,7 +157,7 @@ def openf(file_path):
 
     ext = file_path.suffix
 
-    if ext in {".txt", ".sh"}:
+    if ext in {".txt", ".sh", ".md"}:
         return read_txt(file_path)
     elif ext == ".json":
         return json_load(file_path)
@@ -199,7 +199,7 @@ def writef(file_path, data, overwrite=True):
         return
 
     ext = file_path.suffix
-    if ext == ".txt":
+    if ext in {".txt", ".md"}:
         write_txt(file_path, data)
     elif ext == ".json":
         json_dump(file_path, data)
