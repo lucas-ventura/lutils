@@ -175,7 +175,7 @@ def openf(file_path):
         raise ValueError(f"Unsupported file extension: {ext}")
 
 
-def writef(file_path, data, overwrite=True):
+def writef(file_path, data, overwrite=True, mkdir=False):
     """
     Writes data to a file at the given file path. The file format is determined by the file extension.
 
@@ -190,9 +190,13 @@ def writef(file_path, data, overwrite=True):
 
     if not isinstance(file_path, Path):
         file_path = Path(file_path)
-    assert (
-        file_path.parent.exists()
-    ), f"Parent directory does not exist: {file_path.parent}"
+
+    if mkdir:
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+    else:
+        assert file_path.parent.exists(), (
+            f"Parent directory does not exist: {file_path.parent}"
+        )
 
     if file_path.exists() and not overwrite:
         print(f"Warning: File {file_path} exists and overwrite=False. Skipping write.")
