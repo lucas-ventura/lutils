@@ -168,11 +168,38 @@ def openf(file_path):
     elif ext == ".pth":
         return torch_load(file_path)
     elif ext in {".jpg", ".jpeg", ".png", ".bmp", ".gif"}:
-        return read_image(file_path)
+        raise ValueError(f"Use open_image() for image file extensions: {ext}")
     elif ext in {".yaml"}:
         return yaml_load(file_path)
     else:
         raise ValueError(f"Unsupported file extension: {ext}")
+
+
+def open_image(file_path):
+    """
+    Open image file and return contents
+    """
+    file_path = Path(file_path)
+    check_path_exists(file_path)
+
+    ext = file_path.suffix
+
+    if ext in {".jpg", ".jpeg", ".png", ".bmp", ".gif"}:
+        return read_image(file_path)
+    else:
+        raise ValueError(f"Unsupported file extension: {ext}")
+
+
+def open_img(file_path):
+    return open_image(file_path)
+
+
+def openimg(file_path):
+    return open_image(file_path)
+
+
+def openi(file_path):
+    return open_image(file_path)
 
 
 def writef(file_path, data, overwrite=True, mkdir=False):
