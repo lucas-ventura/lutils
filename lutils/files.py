@@ -131,7 +131,7 @@ def load_pkl_dir(pkl_dir: Union[Path, str]):
     return data
 
 
-def read_image(image_path: Union[str, Path]) -> Image.Image:
+def read_image(image_path: Union[str, Path]):
     with open(image_path, "rb") as f:
         img = Image.open(f)
         img.load()
