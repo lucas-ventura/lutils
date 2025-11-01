@@ -53,3 +53,39 @@ def center_crop(image):
     image = image.crop((left, top, right, bottom))
 
     return image
+
+
+def hconcat_images(image_list):
+    min_height = min(img.height for img in image_list)
+
+    resized_images = []
+    total_width = 0
+
+    for img in image_list:
+        # Calculate the new width to maintain the aspect ratio
+        original_width, original_height = img.size
+
+        # New height is the minimum height found in the list
+        new_height = min_height
+
+        # Calculate new width: new_width = original_width * (new_height / original_height)
+        new_width = int(original_width * (new_height / original_height))
+
+        # Resize the image
+        img_resized = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+
+        # Store the resized image and update the total width
+        resized_images.append(img_resized)
+        total_width += new_width
+
+    # The new image size is (total_width, min_height)
+    concatenated_image = Image.new("RGB", (total_width, min_height))
+
+    x_offset = 0
+    for img in resized_images:
+        # The position is (x, y) - y is 0 for horizontal concatenation
+        concatenated_image.paste(img, (x_offset, 0))
+        # Update the horizontal offset for the next image
+        x_offset += img.width
+
+    return concatenated_image
