@@ -89,3 +89,26 @@ def hconcat_images(image_list):
         x_offset += img.width
 
     return concatenated_image
+
+
+def vconcat_images(image_list):
+    min_width = min(img.width for img in image_list)
+
+    resized_images = []
+    total_height = 0
+
+    for img in image_list:
+        original_width, original_height = img.size
+        new_width = min_width
+        new_height = int(original_height * (new_width / original_width))
+        img_resized = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+        resized_images.append(img_resized)
+        total_height += new_height
+
+    concatenated_image = Image.new("RGB", (min_width, total_height))
+    y_offset = 0
+    for img in resized_images:
+        concatenated_image.paste(img, (0, y_offset))
+        y_offset += img.height
+
+    return concatenated_image
